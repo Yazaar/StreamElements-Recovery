@@ -45,4 +45,4 @@ Not all users will benefit from this extraction process since it requires a resp
 
 Some users might lose points if the script is unable to find their current value (will leave it blank for you to specify or calculate depending on their watchtime). But this is only a problem if watchtime is exposed and not their points, if none of them are will their current record from 4:th November be unchanged (watchtime and points)
 
-I take **no responsibility ** for the outcome but would recommend this method (used it myself on multiple channels but I read all files manually)
+I take **no responsibility** for the outcome but would recommend this method (used it myself on multiple channels but I read all files manually)
