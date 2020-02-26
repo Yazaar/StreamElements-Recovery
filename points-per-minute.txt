@@ -1,0 +1,4 @@
+just insert a number for how many points user gets per minute
+nothing else
+10 points per 10 minutes, insert 1 (10/10 BTW)
+5 points per 10 minutes, insert 0.5 (5/10 BTW)
