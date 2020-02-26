@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 import re, json, requests
 
-filename = 'parseme.txt'
+filename = 'parseme.html'
 
 def leaderboardData(userid):
     r = requests.get(f'https://api.streamelements.com/kappa/v2/points/{userid}/alltime?limit=0').json()
@@ -11,7 +11,7 @@ def leaderboardData(userid):
         alltime[user['username']] = user['points']
     return alltime
 
-def csvParser(usernames, watchtimes, points):
+def csvParser(usernames, watchtimes, points, alltime):
     csvWatchtime = ''
     csvPoints = ''
     csvBoth = ''
@@ -21,17 +21,19 @@ def csvParser(usernames, watchtimes, points):
         elif user in watchtimes:
             if perMinute == None:
                 currentPts = 'CURRENT_POINTS'
-                maxPts = 'MAX_POINTS'
+                if user in alltime:
+                    maxPts = alltime[user]
+                else:
+                    maxPts = 'MAX_POINTS'
             else:
                 currentPts = int(watchtimes[user] * perMinute)
-                maxPts = currentPts
+                if user in alltime and alltime[user] > currentPts:
+                    maxPts = alltime[user]
+                else:
+                    maxPts = currentPts
             csvWatchtime += f'{user},,{currentPts},{maxPts},{watchtimes[user]}\n'
         else:
-            if perMinute == None:
-                wtime = 'WATCHTIME'
-            else:
-                wtime = int(points[user]["max"] / perMinute)
-            csvPoints += f'{user},,{points[user]["current"]},{points[user]["max"]},{wtime}\n'
+            csvPoints += f'{user},,{points[user]["current"]},{points[user]["max"]},\n'
     return (csvWatchtime, csvBoth, csvPoints)
 
 def handleWatchtime(user, duration):
@@ -52,7 +54,7 @@ with open('convert.json', 'r') as f:
 
 with open('points-per-minute.txt', 'r') as f:
     try:
-        perMinute = int(f.read())
+        perMinute = float(f.read())
     except Exception:
         print('points-watchtime ratio not found (unable to calculate data-losses)')
         perMinute = None
@@ -117,7 +119,7 @@ with open('data-watchtime.json', 'w') as f:
 with open('data-points.json', 'w') as f:
     json.dump(pointsData, f)
 
-csvData = csvParser(usernameData, watchtimeData, pointsData)
+csvData = csvParser(usernameData, watchtimeData, pointsData, alltime)
 
 with open('result-only-watchtime.csv', 'w') as f:
     f.write(csvData[0])
