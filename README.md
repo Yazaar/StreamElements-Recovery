@@ -11,7 +11,7 @@ All data that was registered between 4:th November 2019 and 24:th Febuary 2020 a
 1. A user with moderator privileges or higher heads over to the channel to recover
 2. Types "/user StreamElements" (capitalization does not matter) to open up the bots profile
 3. Clicks on the messages tab
-4. Scroll up until plenty of messages are loaded, the current date should be written. Make sure this is 4:th of November 2019 but preferably earlier for less future work
+4. Scroll up until plenty of messages are loaded, the current date should be written. Make sure this is 4:th of November 2019 (at least)
 5. Rightclick a message, or anything really, click "inspect". Or use a keyboard shortcut (F12) (CTRL + SHIFT + I)
 6. Click "Console" found close to the top
 7. Paste the following, all messages should get marked: "document.querySelector('.message').parentElement.parentElement.innerHTML"
